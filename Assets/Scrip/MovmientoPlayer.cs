@@ -2,15 +2,22 @@ using UnityEngine;
 
 public class MovmientoPlayer : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
+    [SerializeField] private float velocidad = 5.0f;
+
     void Update()
     {
+
+        float movimientoHorizontal = Input.GetAxis("Horizontal");
+        float movimientoVertical = Input.GetAxis("Vertical");
+        float upDown = Input.GetAxis("Jump");
+
+        Vector3 movimiento = new Vector3(movimientoHorizontal, upDown, movimientoVertical);
+
+        transform.Translate(movimiento * velocidad * Time.deltaTime);
         
+        Debug.Log("Movimiento Horizontal: " + movimientoHorizontal);
+        Debug.Log("Movimiento Vertical: " + movimientoVertical);
+        Debug.Log("Movimiento Up/Down: " + upDown);
     }
 }
