@@ -1,4 +1,5 @@
 using System.Collections;
+
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -13,12 +14,18 @@ public class EnemyIA : MonoBehaviour
     [SerializeField] private Transform[] controlPoints;
     [SerializeField] private float waitTime=1f;
 
+    [SerializeField] private float attackCooldown= 3f;
+
     private int currentPointIndex;
     private bool isWaiting;
     private bool isAttacking=false;
 
     private Transform playertransform;
     private NavMeshAgent agent;
+
+    private HealthSystem healthSystemPlayer;
+
+    private Attack attack;
    
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -29,6 +36,7 @@ public class EnemyIA : MonoBehaviour
         if(player != null)
         {
             playertransform=player.GetComponent<Transform>();
+            healthSystemPlayer=player.GetComponent<HealthSystem>();
         }else
         {
             Debug.Log("no encontro player");
@@ -38,6 +46,7 @@ public class EnemyIA : MonoBehaviour
     private void Awake()
     {
         agent=GetComponent<NavMeshAgent>();
+        attack=GetComponent<Attack>();
 
     }
 
@@ -99,6 +108,30 @@ public class EnemyIA : MonoBehaviour
             currentState=AIState.Chase;
             return;
         }
+
+        if (!isAttacking)
+        {
+           StartCoroutine(AttackColldown());
+        }
+    }
+
+
+    private IEnumerator AttackColldown(){
+        isAttacking=true;
+        agent.isStopped=true;
+        Ataque();
+        yield return new WaitForSeconds(attackCooldown);
+        agent.isStopped=false;
+        isAttacking=false;
+    }
+
+    private void Ataque()
+    {
+        if (healthSystemPlayer != null)
+        {
+            attack.Melee();
+        }
+        Debug.Log("ataque");
     }
 
     private IEnumerator WaitandMove()
@@ -127,4 +160,7 @@ public class EnemyIA : MonoBehaviour
         Gizmos.color=Color.blue;
         Gizmos.DrawWireSphere(transform.position,radiusAttack);
     }
+
+    
 }
+

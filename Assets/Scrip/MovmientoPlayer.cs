@@ -3,7 +3,7 @@ using UnityEngine;
 public class MovmientoPlayer : MonoBehaviour
 {
     [Header("Velocidad de movimiento")]
-    [SerializeField] private float velocidad = 5.0f;
+    [SerializeField] public float velocidad = 5.0f;
     private float movimientoHorizontal;
     private float movimientoVertical;
     private float upDown;
