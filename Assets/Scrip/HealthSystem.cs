@@ -37,6 +37,17 @@ public class HealthSystem : MonoBehaviour
     {
         isDead = true;
         Debug.Log("Muerto");
+        if(GameManager.Instance != null)
+        {
+            GameManager.Instance.GameOver();
+        }
+        if (isDead)
+        {
+            Time.timeScale = 0f;
+            
+        }
+
+        
     }
     
 }

@@ -55,7 +55,7 @@ public class Attack : MonoBehaviour
         {
             foreach (Collider col in colliders)
             {
-                if (col.CompareTag("Enemy") || col.CompareTag("Player"))
+                if (col.CompareTag("enemy") || col.CompareTag("Player"))
                 {
                      ApplyDamage(col.gameObject);
                 }
@@ -88,7 +88,7 @@ public class Attack : MonoBehaviour
 
     private void ApplyDamage(GameObject obj)
     {
-        if (obj.CompareTag("Player") || obj.CompareTag("Enemy") && obj!=null)
+        if (obj.CompareTag("Player") || obj.CompareTag("enemy") && obj!=null)
         {
             Debug.Log($"<color=red> aplico daño<>");
             obj.GetComponent<HealthSystem>().TakeDamage(damage);
